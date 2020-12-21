@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="textview">TextView</string>
+    <string name="Name">Name</string>
+    <string name="Description">Description</string>
+    <string name="todo">TODO</string>
+    <string name="name">name</string>
+    <string name="avtor">avtor</string>
+    <string name="rik">rik</string>
+
+    <string-array name="items">
+        <item>«Кобзар»</item>
+        <item>«Кінь. Ніч»</item>
+        <item>«Запорожці»</item>
+        <item>«Катерина»</item>
+        <item>«Прощавай, Караваджо!»</item>
+        <item>«Кого боїться Хьорст»</item>
+        <item>«DRIVE 9»</item>
+        <item>«Морський бій»</item>
+    </string-array>
+
+    <string-array name="descriptions">
+        <item>Автор: Олег Шупляк</item>
+        <item>Автор: Анатолій Криволап</item>
+        <item>Автор: Ілля Рєпін</item>
+        <item>Автор: Тарас Шевченко</item>
+        <item>Автор: Олександр Ройтбурд</item>
+        <item>Автор: Василь Цаголов</item>
+        <item>Автор: Оксана Мась</item>
+        <item>Автор: Максим Мамсіков</item>
+    </string-array>
+
+    <array name="icon">
+        <item>@drawable/kobzar</item>
+        <item>@drawable/nich</item>
+        <item>@drawable/zp</item>
+        <item>@drawable/kateruna</item>
+        <item>@drawable/poka</item>
+        <item>@drawable/kogo</item>
+        <item>@drawable/drive</item>
+        <item>@drawable/biy</item>
+    </array>
+</resources>
