@@ -1,19 +1,76 @@
 package com.example.myapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
+
 public class DetailActivity extends AppCompatActivity {
+
+    ArrayList<String> names = new ArrayList<>();
+    ArrayList<String> avtors = new ArrayList<>();
+    ArrayList<String> riks = new ArrayList<>();
+
+    private String loadJSONfromAssets() {
+        String json = null;
+        try{
+            InputStream is = getAssets().open("user.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+        return json;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        try{
+            JSONObject obj = new JSONObject(loadJSONfromAssets());
+            JSONArray userArray = obj.getJSONArray("user");
+            for(int i=0; i<userArray.length(); i++){
+                JSONObject userDetail = userArray.getJSONObject(i);
+                names.add(userDetail.getString("value1"));
+                avtors.add(userDetail.getString("avtor1"));
+                riks.add(userDetail.getString("rik"));
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
@@ -24,9 +81,9 @@ public class DetailActivity extends AppCompatActivity {
             int pic = getImg(index);
             ImageView img = (ImageView) findViewById(R.id.imageView);
             scaleImg(img, pic);
-            String name = getName(index);
-            String avtor = getAvtor(index);
-            String rik = getRik(index);
+            String name = names.get(index);
+            String avtor = avtors.get(index);
+            String rik = riks.get(index);
             TextView textViewName = (TextView) findViewById(R.id.textViewName);
             textViewName.setText(name);
             TextView textViewAvtor = (TextView) findViewById(R.id.textViewAvtor);
@@ -48,48 +105,6 @@ public class DetailActivity extends AppCompatActivity {
             case 6: return R.drawable.drive;
             case 7: return R.drawable.biy;
             default: return -1;
-        }
-    }
-
-    private String getName(int index){
-        switch (index){
-            case 0: return "«Кобзар»";
-            case 1: return "«Кінь. Ніч»";
-            case 2: return "«Запорожці»";
-            case 3: return "«Катерина»";
-            case 4: return "«Прощавай, Караваджо!»";
-            case 5: return "«Кого боїться Хьорст»";
-            case 6: return "«DRIVE 9»";
-            case 7: return "«Морський бій»";
-            default: return "non";
-        }
-    }
-
-    private String getAvtor(int index){
-        switch (index){
-            case 0: return "Автор: Олег Шупляк";
-            case 1: return "Автор: Анатолій Криволап";
-            case 2: return "Автор: Ілля Рєпін";
-            case 3: return "Автор: Тарас Шевченко";
-            case 4: return "Автор: Олександр Ройтбурд";
-            case 5: return "Автор: Василь Цаголов";
-            case 6: return "Автор: Оксана Мась";
-            case 7: return "Автор: Максим Мамсіков";
-            default: return "non";
-        }
-    }
-
-    private String getRik(int index){
-        switch (index){
-            case 0: return "Дата створення: 1854 рік";
-            case 1: return "Дата створення: 2009 рік";
-            case 2: return "Дата створення: 1880-1891 рік";
-            case 3: return "Дата створення: 1842 рік";
-            case 4: return "Дата створення: 2008 рік";
-            case 5: return "Дата створення: 2013 рік";
-            case 6: return "Дата створення: 2008-2009 рік";
-            case 7: return "Дата створення: 1999 рік";
-            default: return "non";
         }
     }
 
